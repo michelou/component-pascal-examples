@@ -242,10 +242,9 @@ set "_GPCP_CMD=%JROOT%\bin\gpcp.bat"
 
 if not exist "%_CLASSES_DIR%" mkdir "%_CLASSES_DIR%"
 
-set __GPCP_OPTS=
-if %_DEBUG%==1 ( set __GPCP_OPTS=-verbose %__GPCP_OPTS%
-) else if %_VERBOSE%==1 ( set __GPCP_OPTS=-quiet %__GPCP_OPTS%
-) else ( set __GPCP_OPTS=-quiet -nowarn %__GPCP_OPTS%
+if %_DEBUG%==1 ( set __GPCP_OPTS=/verbose
+) else if %_VERBOSE%==1 ( set __GPCP_OPTS=/quiet
+) else ( set __GPCP_OPTS=/quiet /nowarn /list-
 )
 @rem source file paths relative to directory 'target\classes\'
 set __SOURCE_FILES=
@@ -278,11 +277,11 @@ goto :eof
 :compile_net
 if not exist "%_TARGET_DIR%" mkdir "%_TARGET_DIR%"
 
-if %_DEBUG%==1 ( set __GPCP_OPTS=-verbose
-) else if %_VERBOSE%==1 ( set __GPCP_OPTS=
-) else ( set __GPCP_OPTS=-quiet -nowarn
+if %_DEBUG%==1 ( set __GPCP_OPTS=/verbose
+) else if %_VERBOSE%==1 ( set __GPCP_OPTS=/quiet
+) else ( set __GPCP_OPTS=/quiet /nowarn /list-
 )
-set __GPCP_OPTS=-strict %__GPCP_OPTS% -target:%_TARGET%
+set __GPCP_OPTS=/strict %__GPCP_OPTS% /target:%_TARGET%
 
 set "__CPSYM=%CPSYM%"
 set CPSYM=".;%JRoot%\symfiles;%JRoot%\symfiles\JvmSystem"

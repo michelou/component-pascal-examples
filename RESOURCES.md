@@ -22,7 +22,8 @@
 - GitHub/[CPfront](https://github.com/Oleg-N-Cher/CPFront) &ndash; Component Pascal to C Translator.
 ## <span id="tools">Tools</span>
 
-- [CPIde](https://www.astrobe.com/CPIde/CPIde.htm) &ndash; an IDE for Component Pascala for .NET.
+- [Component Pascal Collection](https://www.zinnamturm.eu/downloads.htm) &ndash; the CPC Edition of BlackBox 1.8.2504.
+- [CPIde](https://www.astrobe.com/CPIde/CPIde.htm) &ndash; an IDE for Component Pascal for .NET.
 
 ***
 

@@ -271,7 +271,7 @@ goto :eof
 @rem output parameter: _JROOT
 :gpcp_jvm
 set _JROOT=
-set _JRE_HOME=
+set JDK_HOME=
 
 set __GPCP_CMD=
 for /f "delims=" %%f in ('where gpcp.bat 2^>NUL') do set "__GPCP_CMD=%%f"
@@ -301,37 +301,37 @@ if not exist "%_JROOT%\bin\gpcp.bat" (
     set _EXITCODE=1
     goto :eof
 )
-for /f "delims=" %%f in ('dir /ad /b /s "%_JROOT%\jre*" 2^>NUL') do (
-    set "_JRE_HOME=%%f"
+for /f "delims=" %%f in ('dir /ad /b /s "%_JROOT%\jdk*" 2^>NUL') do (
+    set "JDK_HOME=%%f"
 )
-if exist "%_JRE_HOME%\bin\java.exe" (
-    if %_DEBUG%==1 ( echo %_DEBUG_LABEL% Java RE directory is "%_JRE_HOME%" 1>&2
-    ) else if %_VERBOSE%==1 ( echo Java RE directory is "%_JRE_HOME%" 1>&2
+if exist "%JDK_HOME%\bin\java.exe" (
+    if %_DEBUG%==1 ( echo %_DEBUG_LABEL% Java RE directory is "%JDK_HOME%" 1>&2
+    ) else if %_VERBOSE%==1 ( echo Java RE directory is "%JDK_HOME%" 1>&2
     )
     goto :eof
 )
-@rem https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html
-@rem Without token : https://gist.github.com/wavezhang/ba8425f24a968ec9b2a8619d7c2d86a6
-set "__URL=https://javadl.oracle.com/webapps/download/AutoDL?BundleId=243738_61ae65e088624f5aaa0b1d2d801acb16"
-set "__TGZ_FILE=%TEMP%\server-jre-8u271-windows-x64.tar.gz"
+@rem https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/tag/jdk8u272-b10
+set "_TGZ_NAME=OpenJDK8U-jre_x64_windows_hotspot_8u272b10.zip"
+set "__URL=https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u272-b10/%_TGZ_NAME%"
+set "__TGZ_FILE=%TEMP%\%_TGZ_NAME%"
 
 if %_DEBUG%==1 ( echo %_DEBUG_LABEL% "%_PWSH_CMD%" -c "Invoke-WebRequest -Uri %__URL% -Outfile %__TGZ_FILE%" 1>&2
-) else if %_VERBOSE%==1 ( echo Download archive file "%__TGZ_FILE%" 1>&2
+) else if %_VERBOSE%==1 ( echo Download archive file "%_TGZ_NAME%" 1>&2
 )
 call "%_PWSH_CMD%" -c "$progressPreference='silentlyContinue';Invoke-WebRequest -Uri %__URL% -Outfile %__TGZ_FILE%"
 if not %ERRORLEVEL%==0 (
-    echo %_ERROR_LABEL% Failed to download archive file %__TGZ_FILE% 1>&2
+    echo %_ERROR_LABEL% Failed to download archive file %_TGZ_NAME% 1>&2
     set _EXITCODE=1
     goto :eof
 )
-mkdir "%_JRE_HOME%"
+mkdir "%JDK_HOME%"
 
 if %_DEBUG%==1 ( echo %_DEBUG_LABEL% tar -xf "%__TGZ_FILE%" -C "%_JROOT%" 1>&2
-) else if %_VERBOSE%==1 ( echo Extract data from archive file "%__TGZ_FILE%" 1>&2
+) else if %_VERBOSE%==1 ( echo Extract data from archive file "%_TGZ_NAME%" 1>&2
 )
 tar -xf "%__TGZ_FILE%" -C "%_JROOT%"
 if not %ERRORLEVEL%==0 (
-    echo %_ERROR_LABEL%: Failed to extract data from archive file %__TGZ_FILE% 1>&2
+    echo %_ERROR_LABEL%: Failed to extract data from archive file %_TGZ_NAME% 1>&2
     set _EXITCODE=1
     goto :eof
 )
@@ -457,7 +457,7 @@ endlocal & (
     if %_EXITCODE%==0 (
         if not defined GIT_HOME set "GIT_HOME=%_GIT_HOME%"
         if not defined GPCP_HOME set "GPCP_HOME=%_GPCP_HOME%"
-        if not defined JAVA_HOME set "JAVA_HOME=%_JRE_HOME%"
+        if not defined JAVA_HOME set "JAVA_HOME=%JDK_HOME%"
         if not defined JROOT set "JROOT=%_JROOT%"
         set "PATH=%PATH%%_GIT_PATH%;%~dp0bin"
         call :print_env %_VERBOSE%

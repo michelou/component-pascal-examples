@@ -15,9 +15,9 @@
 
 This project depends on the following external software for the **Microsoft Windows** platform:
 
-- [Gardens Point Component Pascal 1.4][gpcp_downloads]
+- [Gardens Point Component Pascal 1.4][gpcp_downloads] <sup id="anchor_01">[1](#footnote_01)</sup>
 - [Git 2.51][git_downloads] ([*release notes*][git_relnotes])
-- [Oracle Java RE 8u271][jre_8u271] ([*release notes*][jre_8u271_relnotes])
+- [OpenJDK8U JRE 8u272][jre_8u272] <sup id="anchor_02">[2](#footnote_02)</sup> ([*release notes*][jre_8u272_relnotes])
 
 Optionally one may also install the following software:
 
@@ -27,14 +27,15 @@ Optionally one may also install the following software:
 > **&#9755;** ***Installation policy***<br/>
 > When possible we install software from a [Zip archive][zip_archive] rather than via a Windows installer. In our case we defined **`C:\opt\`** as the installation directory for optional software tools (*in reference to* the [**`/opt/`**][linux_opt] directory on Unix).
 
-For instance our development environment looks as follows (*October 2025*) <sup id="anchor_04">[4](#footnote_04)</sup>:
+For instance our development environment looks as follows (*October 2025*) <sup id="anchor_03">[3](#footnote_03)</sup>:
 
 <pre style="font-size:80%;">
-C:\opt\ConEmu\            <i>( 26 MB)</i>
-C:\opt\Git\               <i>(367 MB)</i>
-C:\opt\gpcp-JVM-1.4.07\   <i>( 20 MB)</i>
-C:\opt\gpcp-NET-1.4.08\   <i>( 22 MB)</i>
-C:\opt\VSCode\            <i>(341 MB)</i>
+C:\opt\ConEmu\                            <i>( 26 MB)</i>
+C:\opt\Git\                               <i>(394 MB)</i>
+C:\opt\gpcp-JVM-1.4.07\                   <i>( 20 MB)</i> (without JRE subdirectory)
+c:\opt\gpcp-JVM-1.4.07\jdk8u272-b10-jre\  <i>( 94 MB)</i>
+C:\opt\gpcp-NET-1.4.08\                   <i>( 22 MB)</i>
+C:\opt\VSCode\                            <i>(430 MB)</i>
 </pre>
 
 > **:mag_right:** [Git for Windows][git_downloads] provides a BASH emulation used to run [**`git.exe`**][git_cli] from the command line (as well as over 250 Unix commands like [**`awk`**][man1_awk], [**`diff`**][man1_diff], [**`file`**][man1_file], [**`grep`**][man1_grep], [**`more`**][man1_more], [**`mv`**][man1_mv], [**`rmdir`**][man1_rmdir], [**`sed`**][man1_sed] and [**`wc`**][man1_wc]).
@@ -43,9 +44,9 @@ C:\opt\VSCode\            <i>(341 MB)</i>
 
 This project is organized as follows:
 <pre style="font-size:80%;">
-<a href="bin/">bin\</a>
-<a href="docs/">docs\</a>
-<a href="examples/">examples\</a>
+<a href="./bin/">bin\</a>
+<a href="./docs/">docs\</a>
+<a href="./examples/">examples\</a>{<a href="./examples/Hello/">Hello</a>, <a href="./examples/JvmParams/">JvmParams</a>, <a href="./examples/TypeNames/">TypeParams</a>, <a href="./examples/Vectors/">Vectors</a>, etc.}
 README.md
 <a href="RESOURCES.md">RESOURCES.md</a>
 <a href="setenv.bat">setenv.bat</a>
@@ -54,20 +55,24 @@ README.md
 where
 
 - directory [**`bin\`**](bin/) contains .
-- directory [**`docs\`**](docs/) contains [Ada] related documents.
-- directory [**`examples\`**](examples/) contains [Ada] code examples grabbed from various websites.
+- directory [**`docs\`**](docs/) contains [Component Pascal][cpascal] related documents.
+- directory [**`examples\`**](examples/) contains [Component Pascal][cpascal] code examples grabbed from various websites.
 - file [**`README.md`**](README.md) is the [Markdown][github_markdown] document for this page.
-- file [**`RESOURCES.md`**](RESOURCES.md) gathers [Ada] related informations.
+- file [**`RESOURCES.md`**](RESOURCES.md) gathers [Component Pascal][cpascal] related informations.
 - file [**`setenv.bat`**](setenv.bat) is the batch script for setting up our environment.
 
-[CP IDE](https://www.astrobe.com/CPIde/CPIde.htm)
+<!--=======================================================================-->
+
+## <span id="commands">Batch commands</span>
+
+### **`setenv.bat`** <sup id="anchor_04">[4](#footnote_04)</sup>
 
 <pre style="font-size:80%;">
 <b>&gt; <a href="./setenv.bat">setenv</a> -verbose</b>
 Select drive G: for which a substitution already exists
 Tool versions:
-   javac 1.8.0_422, java 1.8.0_422, gpcp 1.4.08b3, j2cps 1.4.07,
-   git 2.51.0, diff 3.12, bash 5.2.37(1)-release
+   java 1.8.0_272, gpcp 1.4.08b3, j2cps 1.4.07,
+   git 2.51.1, diff 3.12, bash 5.2.37(1)-release
 Tool paths:
    C:\opt\jdk-temurin-1.8.0u412-b08\bin\javac.exe
    C:\opt\jdk-temurin-1.8.0u412-b08\bin\java.exe
@@ -78,12 +83,106 @@ Tool paths:
 Environment variables:
    "GIT_HOME=C:\opt\Git"
    "GPCP_HOME=C:\opt\gpcp-NET-1.4.08"
-   "JAVA_HOME=C:\opt\jdk-temurin-1.8.0u412-b08"
+   "JAVA_HOME=C:\opt\gpcp-JVM-1.4.07\jdk8u282-b08-jre"
    "JROOT=C:\opt\gpcp-JVM-1.4.07"
 Path associations:
-   G:\: => %USERPROFILE%\workspace-perso\cpascal-examples
+   H:\: => %USERPROFILE%\workspace-perso\cpascal-examples
 </pre>
 
+<!--=================================================================================-->
+
+## <span id="footnotes">Footnotes</span> [**&#x25B4;**](#top)
+
+<span id="footnote_01">[1]</span> ***Garden Point Component Pascal for JVM*** [↩](#anchor_01)
+
+<dl><dd>
+GPCP for JVM version <b>1.4.07</b> supports JRE <a href="https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/tag/jdk8u272-b10"><b>8u272</b></a> <u>or older</u>.
+
+Any newer version of Java VM will throw the exception `java.lang.ClassFormatError`; for instance [**8u282**](https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/tag/jdk8u282-b08) :
+
+<pre style="font-size:80%;">
+<b>&gt; <a href="">set</a> JAVA_HOME=c:\opt\jdk8u282-b08-jre</b>
+
+<b>&gt; <a href="./examples/Hello/build.bat">build</a> -verbose -jvm clean compile</b>
+Delete directory "target"
+Compile 1 Component Pascal source file to directory "H:\examples\Hello\target\classes"
+<span style="color:red;">Exception in thread "main" java.lang.ClassFormatError: Illegal class name "LCP/CPJrts/XHR;" in class file CP/Visitor/Visitor_ImplementedCheck</span>
+        at java.lang.ClassLoader.defineClass1(Native Method)
+        at java.lang.ClassLoader.defineClass(ClassLoader.java:756)
+        at java.security.SecureClassLoader.defineClass(SecureClassLoader.java:142)
+        at java.net.URLClassLoader.defineClass(URLClassLoader.java:473)
+        at java.net.URLClassLoader.access$100(URLClassLoader.java:74)
+        at java.net.URLClassLoader$1.run(URLClassLoader.java:369)
+        at java.net.URLClassLoader$1.run(URLClassLoader.java:363)
+        at java.security.AccessController.doPrivileged(Native Method)
+        at java.net.URLClassLoader.findClass(URLClassLoader.java:362)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:418)
+        at sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:352)
+        at java.lang.ClassLoader.loadClass(ClassLoader.java:351)
+        at CP.gpcp.gpcp.main(gpcp.cp:40)
+Error: Failed to compile 1 Component Pascal source file to directory "H:\examples\Hello\target\classes"
+</pre>
+</dd></dl>
+
+<span id="footnote_02">[2]</span> ***Java RE 8*** [↩](#anchor_02)
+
+<dl><dd>
+Version <a href="https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/tag/jdk8u272-b10"><b>8u272</b></a> of the Java VM is the most recent version supported by GPCP for JVM version <b>1.4.07</b>.
+
+Our batch file [`setenv.bat`](./setenv.bat) will install it into the GPCP installation directory if not yet present :
+
+<pre style="font-size:80%;">
+<b>&gt; for /d %a in ("c:\opt\gpcp-JVM-1.4.07\*") do @<a href="https://man7.org/linux/man-pages/man1/du.1.html">du</a> -sh --apparent-size %~fa</b>
+1.8K    c:\opt\gpcp-JVM-1.4.07\bin
+1.6M    c:\opt\gpcp-JVM-1.4.07\documentation
+705K    c:\opt\gpcp-JVM-1.4.07\jars
+<span style="color:blue;">95M     c:\opt\gpcp-JVM-1.4.07\jdk8u272-b10-jre</span>
+1.6M    c:\opt\gpcp-JVM-1.4.07\libs
+2.3M    c:\opt\gpcp-JVM-1.4.07\sources
+15M     c:\opt\gpcp-JVM-1.4.07\symfiles
+</pre>
+</dd></dl>
+
+<span id="footnote_03">[3]</span> ***Downloads*** [↩](#anchor_03)
+
+<dl><dd>
+In our case we downloaded the following installation files (see <a href="#proj_deps">section 1</a>):
+</dd>
+<dd>
+<pre style="font-size:80%;">
+<a href="https://github.com/Maximus5/ConEmu/releases/tag/v23.07.24" rel="external">ConEmuPack.230724.7z</a>                               <i>(  5 MB)</i>
+<a href="https://github.com/k-john-gough/gpcp/releases/tag/v1.4.07" rel="external">gpcp-JVM1.4.07.zip</a>                                 <i>(  5 MB)</i>
+<a href="https://github.com/k-john-gough/gpcp/releases/tag/v1.4.08-beta3" rel="external">gpcp-NET1.4.08b3.zip</a>                               <i>(  4 MB)</i>
+<a href="https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html">jre-8u271-windows-x64.tar.gz</a>                       <i>( 74 MB)</i>
+<a href="https://git-scm.com/download/win" rel="external">PortableGit-2.51.1-64-bit.7z.exe</a>                   <i>( 47 MB)</i>
+<a href="https://code.visualstudio.com/Download#" rel="external">VSCode-win32-x64-1.105.1.zip</a>                       <i>(131 MB)</i>
+</pre>
+</dd></dl>
+
+<span id="footnote_04">[4]</span> **`setenv.bat` *usage*** [↩](#anchor_04)
+
+<dl><dd>
+Batch file <a href=./setenv.bat><code><b>setenv.bat</b></code></a> has specific environment variables set that enable us to use command-line developer tools more easily.
+</dd>
+<dd>It is similar to the setup scripts described on the page <a href="https://learn.microsoft.com/en-us/visualstudio/ide/reference/command-prompt-powershell" rel="external">"Visual Studio Developer Command Prompt and Developer PowerShell"</a> of the <a href="https://learn.microsoft.com/en-us/visualstudio/windows" rel="external">Visual Studio</a> online documentation.
+</dd>
+<dd>
+For instance we can quickly check that the two scripts <code><b>Launch-VsDevShell.ps1</b></code> and <code><b>VsDevCmd.bat</b></code> are indeed available in our Visual Studio 2019 installation :
+<pre style="font-size:80%;">
+<b>&gt; <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/where" rel="external">where</a> /r "C:\Program Files (x86)\Microsoft Visual Studio" *vsdev*</b>
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\Launch-VsDevShell.ps1
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\VsDevCmd.bat
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\vsdevcmd\core\vsdevcmd_end.bat
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\vsdevcmd\core\vsdevcmd_start.bat
+</pre>
+</dd>
+<dd>
+Concretely, in our GitHub projects which depend on Visual Studio (e.g. <a href="https://github.com/michelou/cpp-examples"><code>michelou/cpp-examples</code></a>), <a href="./setenv.bat"><code><b>setenv.bat</b></code></a> does invoke <code><b>VsDevCmd.bat</b></code> (resp. <code><b>vcvarall.bat</b></code> for older Visual Studio versions) to setup the Visual Studio tools on the command prompt. 
+</dd></dl>
+
+<span id="footnote_05">[5]</span> ***GPCP command line options*** [↩](#anchor_05)
+
+<dl><dd>
 <pre style="font-size:80%;">
 <b>&gt; C:\opt\gpcp-JVM-1.4.07\bin\gpcp.bat -help</b>
 gardens point component pascal:  version 1.4.07 of 04 March 2018
@@ -127,6 +226,7 @@ gardens point component pascal:  version 1.4.07 of 04 March 2018
 #gpcp: Read source/GPCPcopyright for license details
 #gpcp: No input files specified
 </pre>
+</dd></dl>
 
 ***
 
@@ -140,6 +240,7 @@ gardens point component pascal:  version 1.4.07 of 04 March 2018
 [cobol_examples]: https://github.com/michelou/cobol-examples#top
 [conemu_downloads]: https://github.com/Maximus5/ConEmu/releases
 [conemu_relnotes]: https://conemu.github.io/blog/2023/07/24/Build-230724.html
+[cpascal]: https://en.wikipedia.org/wiki/Component_Pascal
 [cpp_examples]: https://github.com/michelou/cpp-examples#top
 [dafny_examples]: https://github.com/michelou/dafny-examples#top
 [dart_examples]: https://github.com/michelou/dart-examples#top
@@ -148,7 +249,7 @@ gardens point component pascal:  version 1.4.07 of 04 March 2018
 [flix_examples]: https://github.com/michelou/flix-examples#top
 [git_cli]: https://git-scm.com/docs/git
 [git_downloads]: https://git-scm.com/download/win
-[git_relnotes]: https://raw.githubusercontent.com/git/git/master/Documentation/RelNotes/2.45.1.txt
+[git_relnotes]: https://raw.githubusercontent.com/git/git/master/Documentation/RelNotes/2.51.1.adoc
 [github_markdown]: https://github.github.com/gfm/
 [golang_examples]: https://github.com/michelou/golang-examples#top
 [gpcp_downloads]: https://github.com/k-john-gough/gpcp/releases
@@ -185,8 +286,8 @@ gardens point component pascal:  version 1.4.07 of 04 March 2018
 [spring_boot_downloads]: https://mvnrepository.com/artifact/org.springframework.boot/spring-boot
 [spring_boot_relnotes]: https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-3.0-Release-Notes
 [spring_examples]: https://github.com/michelou/spring-examples#top
-[jre_8u271]: https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html
-[jre_8u271_relnotes]: https://www.oracle.com/java/technologies/javase/8u271-relnotes.html
+[jre_8u272]: https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/tag/jdk8u272-b10
+[jre_8u272_relnotes]: https://mail.openjdk.org/pipermail/jdk8u-dev/2020-October/012817.html
 [temurin_openjdk11_bugfixes]: https://www.oracle.com/java/technologies/javase/11-0-15-bugfixes.html
 [temurin_openjdk11_relnotes]: https://mail.openjdk.java.net/pipermail/jdk-updates-dev/2021-October/009368.html
 [temurin_openjdk11]: https://adoptium.net/releases.html?variant=openjdk11&jvmVariant=hotspot
