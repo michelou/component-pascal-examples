@@ -277,11 +277,11 @@ goto :eof
 :compile_net
 if not exist "%_TARGET_DIR%" mkdir "%_TARGET_DIR%"
 
-if %_DEBUG%==1 ( set __GPCP_OPTS=/verbose
-) else if %_VERBOSE%==1 ( set __GPCP_OPTS=/quiet
-) else ( set __GPCP_OPTS=/quiet /nowarn /list-
+if %_DEBUG%==1 ( set __GPCP_OPTS=-verbose
+) else if %_VERBOSE%==1 ( set __GPCP_OPTS=-quiet
+) else ( set __GPCP_OPTS=-quiet -nowarn -list-
 )
-set __GPCP_OPTS=/strict %__GPCP_OPTS% /target:%_TARGET%
+set __GPCP_OPTS=-strict %__GPCP_OPTS% -target:%_TARGET%
 
 set "__CPSYM=%CPSYM%"
 set CPSYM=".;%JRoot%\symfiles;%JRoot%\symfiles\JvmSystem"
@@ -314,8 +314,6 @@ if not %ERRORLEVEL%==0 (
 )
 popd
 set "CPSYM=%__CPSYM%"
-
-if %_TARGET%==jvm goto :eof
 
 if not exist "%GPCP_HOME%\bin\RTS.dll" (
     echo %_ERROR_LABEL% Runtime library not found 1>&2

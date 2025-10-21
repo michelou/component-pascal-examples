@@ -39,7 +39,7 @@ goto end
 @rem #########################################################################
 @rem ## Subroutines
 
-@rem output parameters: _CLASSES_DIR, _MAIN_ARGS, _MAIN_NAME, _SOURCE_DIR
+@rem output parameters: _MAIN_NAME
 :env
 set _BASENAME=%~n0
 set "_ROOT_DIR=%~dp0"
@@ -79,9 +79,9 @@ if %ERRORLEVEL%==0 ( set _PWSH_CMD=pwsh.exe
 ) else ( set _PWSH_CMD=powershell.exe
 )
 @rem target=net
-set _MAIN_NAME=Vectors
+set _MAIN_NAME=DrivePoint
 @rem target=jvm
-set _MAIN_CLASS=CP.Vectors.Vectors
+set _MAIN_CLASS=CP.DrivePoint.DrivePoint
 set _MAIN_ARGS=
 goto :eof
 
@@ -242,10 +242,9 @@ set "_GPCP_CMD=%JROOT%\bin\gpcp.bat"
 
 if not exist "%_CLASSES_DIR%" mkdir "%_CLASSES_DIR%"
 
-set __GPCP_OPTS=
-if %_DEBUG%==1 ( set __GPCP_OPTS=-verbose %__GPCP_OPTS%
-) else if %_VERBOSE%==1 ( set __GPCP_OPTS=-quiet %__GPCP_OPTS%
-) else ( set __GPCP_OPTS=-quiet -nowarn %__GPCP_OPTS%
+if %_DEBUG%==1 ( set __GPCP_OPTS=-verbose
+) else if %_VERBOSE%==1 ( set __GPCP_OPTS=-quiet
+) else ( set __GPCP_OPTS=-quiet -nowarn -list-
 )
 @rem source file paths relative to directory 'target\classes\'
 set __SOURCE_FILES=
@@ -278,12 +277,11 @@ goto :eof
 :compile_net
 if not exist "%_TARGET_DIR%" mkdir "%_TARGET_DIR%"
 
-if %_DEBUG%==1 ( set __GPCP_OPTS=-verbose
-) else if %_VERBOSE%==1 ( set __GPCP_OPTS=
-) else ( set __GPCP_OPTS=-quiet -nowarn
+if %_DEBUG%==1 ( set __GPCP_OPTS=/verbose
+) else if %_VERBOSE%==1 ( set __GPCP_OPTS=/quiet
+) else ( set __GPCP_OPTS=/quiet /nowarn -list-
 )
-@rem -strict ==> Disallow non-standard constructs
-set __GPCP_OPTS=%__GPCP_OPTS% -target:%_TARGET%
+set __GPCP_OPTS=/strict %__GPCP_OPTS% /target:%_TARGET%
 
 set "__CPSYM=%CPSYM%"
 set CPSYM=".;%JRoot%\symfiles;%JRoot%\symfiles\JvmSystem"

@@ -289,7 +289,7 @@ set CPSYM=".;%JRoot%\symfiles;%JRoot%\symfiles\JvmSystem"
 @rem source file paths relative to directory 'target\classes\'
 set __SOURCE_FILES=
 set __N=0
-for /f "delims=" %%f in ('dir /b /s "%_SOURCE_MAIN_DIR%" 2^>NUL') do (
+for /f "delims=" %%f in ('dir /b /s "%_SOURCE_MAIN_DIR%\*.cp" 2^>NUL') do (
     set __SOURCE_FILES=!__SOURCE_FILES! "%%f"
     set /a __N+=1
 )

@@ -3,7 +3,7 @@
 <table style="font-family:Helvetica,Arial;line-height:1.6;">
   <tr>
   <td style="border:0;padding:0 10px 0 0;min-width:120px;">
-    <a href="https://en.wikipedia.org/wiki/Component_Pascal" rel="external"><img style="border:0;width:120px;" src="../docs/images/cpascal.png" alt="CP project" /></a>
+    <a href="https://en.wikipedia.org/wiki/Component_Pascal" rel="external"><img style="border:0;width:120px;" src="../docs/images/component-pascal.png" alt="CP project" /></a>
   </td>
   <td style="border:0;padding:0;vertical-align:text-top;">
     Directory <strong><code>examples\</code></strong> contains <a href="https://en.wikipedia.org/wiki/Component_Pascal" rel="external">Component Pascal</a> code examples coming from various websites - mostly from the <a href="https://en.wikipedia.org/wiki/Component_Pascal" rel="external">Component Pascal project</a>.
@@ -18,7 +18,7 @@ This project has the following directory structure :
 <pre style="font-size:80%;">
 <b>&gt; <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tree">tree</a> /a /f . | <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/findstr">findstr</a> /v /b [A-Z]</b>
 |   <a href="./Hello/build.bat">build.bat</a>
-\---src
+\---<b>src</b>
     \---<b>main</b>
         \---<b>cp</b>
                 <a href="./Hello/src/main/cp/Hello.cp">Hello.cp</a>
@@ -46,6 +46,10 @@ This project has the following directory structure :
 <pre style="font-size:80%;">
 <b>&gt; <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tree">tree</a> /a /f . | <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/findstr">findstr</a> /v /b [A-Z]</b>
 |   <a href="./HelloWorld/build.bat">build.bat</a>
+\---<b>src</b>
+    \---<b>main</b>
+        \---<b>cp</b>
+                <a href="./HelloWorld/src/main/cp/HelloWorld.cp">HelloWorld.cp</a>
 </pre>
 
 <!--=======================================================================-->
@@ -58,7 +62,7 @@ This project has the following directory structure :
 <b>&gt; <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tree">tree</a> /a /f . | <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/findstr">findstr</a> /v /b [A-Z]</b>
 |   <a href="./JvmParams/build.bat">build.bat</a>
 \---<b>src</b>
-    \---main
+    \---<b>main</b>
         \---<b>cp</b>
                 <a href="./JvmParams/src/main/cp/JvmParams.cp">JvmParams.cp</a>
 </pre>
@@ -125,7 +129,7 @@ This project has the following directory structure :
                 <a href="./Vectors/src/main/cp/Vectors.cp">Vectors.cp</a>
 </pre>
 
-Command [**`build clean run`**](./Vectors//build.bat) produces the following output for project [**`Vectors`**](./Vectors/):
+Command [**`build clean run`**](./Vectors/build.bat) produces the following output for project [**`Vectors`**](./Vectors/):
 
 <pre style="font-size:80%;">
 <b>&gt; <a href="./Vectors/build.bat">build</a> -verbose clean run</b>
@@ -171,15 +175,7 @@ Mutate elements of copies
 The output directory `target\` looks as follows :
 
 <pre style="font-size:80%;">
-<b>&gt; <a href="">tree</a> /a /f . | findstr /v /b [A-Z]
-|   <a href="./Vectors/build.bat">build.bat</a>
-+---<b>src</b>
-|   \---main</b>
-|       \---cp</b>
-|               Vectors.cp</a>
-|               Vectors.lst
-|
-\---<b>target</b>
+<b>&gt; <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/tree" rel="external">tree</a> /a /f target | <a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/findstr" rel="external">findstr</a> /v /b [A-Z]</b>
         RTS.dll
         Vectors.cps
         Vectors.exe

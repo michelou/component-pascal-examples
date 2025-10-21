@@ -2,7 +2,7 @@
 
 <table style="font-family:Helvetica,Arial;line-height:1.6;">
   <tr>
-  <td style="border:0;padding:0 10px 0 0;min-width:25%;"><a href="https://en.wikipedia.org/wiki/Component_Pascal" rel="external"><img src="./docs/images/cpascal.png" width="100" alt="Component Pascal project"/></a></td>
+  <td style="border:0;padding:0 10px 0 0;min-width:25%;"><a href="https://en.wikipedia.org/wiki/Component_Pascal" rel="external"><img src="./docs/images/component-pascal.png" width="100" alt="Component Pascal project"/></a></td>
   <td style="border:0;padding:0;vertical-align:text-top;">This repository gathers <a href="https://en.wikipedia.org/wiki/Component_Pascal" rel="external">Component Pascal</a> code examples coming from various websites and books.<br/>
   It also includes several build scripts (<a href="https://en.wikibooks.org/wiki/Windows_Batch_Scripting" rel="external">batch files</a>, <a href="https://docs.gradle.org/current/userguide/writing_build_scripts.html" rel="external">Gradle scripts</a>) for experimenting with <a href="https://en.wikipedia.org/wiki/Component_Pascal" rel="external">Component Pascal</a> on a Windows machine.
   </td>
@@ -47,6 +47,7 @@ This project is organized as follows:
 <a href="./bin/">bin\</a>
 <a href="./docs/">docs\</a>
 <a href="./examples/">examples\</a>{<a href="./examples/Hello/">Hello</a>, <a href="./examples/JvmParams/">JvmParams</a>, <a href="./examples/TypeNames/">TypeParams</a>, <a href="./examples/Vectors/">Vectors</a>, etc.}
+<a href="./rosetta-examples/">rosetta-examples\</a>{<a href="./rosetta-examples/AryLen/">AryLen</a>, etc.}
 README.md
 <a href="RESOURCES.md">RESOURCES.md</a>
 <a href="setenv.bat">setenv.bat</a>
@@ -55,10 +56,11 @@ README.md
 where
 
 - directory [**`bin\`**](bin/) contains .
-- directory [**`docs\`**](docs/) contains [Component Pascal][cpascal] related documents.
-- directory [**`examples\`**](examples/) contains [Component Pascal][cpascal] code examples grabbed from various websites.
+- directory [**`docs\`**](docs/) contains [Component Pascal][component_pascal] related documents.
+- directory [**`examples\`**](examples/) contains [Component Pascal][component_pascal] code examples grabbed from various websites.
+- directory [**`rosetta-examples\`**](examples/) contains [Component Pascal][component_pascal] code examples grabbed from the [Rosetta Code][rosetta_code] website.
 - file [**`README.md`**](README.md) is the [Markdown][github_markdown] document for this page.
-- file [**`RESOURCES.md`**](RESOURCES.md) gathers [Component Pascal][cpascal] related informations.
+- file [**`RESOURCES.md`**](RESOURCES.md) gathers [Component Pascal][component_pascal] related informations.
 - file [**`setenv.bat`**](setenv.bat) is the batch script for setting up our environment.
 
 <!--=======================================================================-->
@@ -86,7 +88,7 @@ Environment variables:
    "JAVA_HOME=C:\opt\gpcp-JVM-1.4.07\jdk8u282-b08-jre"
    "JROOT=C:\opt\gpcp-JVM-1.4.07"
 Path associations:
-   H:\: => %USERPROFILE%\workspace-perso\cpascal-examples
+   H:\: => %USERPROFILE%\workspace-perso\component-pascal-examples
 </pre>
 
 <!--=================================================================================-->
@@ -240,7 +242,7 @@ gardens point component pascal:  version 1.4.07 of 04 March 2018
 [cobol_examples]: https://github.com/michelou/cobol-examples#top
 [conemu_downloads]: https://github.com/Maximus5/ConEmu/releases
 [conemu_relnotes]: https://conemu.github.io/blog/2023/07/24/Build-230724.html
-[cpascal]: https://en.wikipedia.org/wiki/Component_Pascal
+[component_pascal]: https://en.wikipedia.org/wiki/Component_Pascal
 [cpp_examples]: https://github.com/michelou/cpp-examples#top
 [dafny_examples]: https://github.com/michelou/dafny-examples#top
 [dart_examples]: https://github.com/michelou/dart-examples#top
@@ -277,8 +279,9 @@ gardens point component pascal:  version 1.4.07 of 04 March 2018
 [maven_latest]: https://maven.apache.org/download.cgi
 [maven_relnotes]: https://maven.apache.org/docs/3.9.11/release-notes.html
 [nodejs_examples]: https://github.com/michelou/nodejs-examples#top
+[rosetta_code]: https://rosettacode.org/
 [rust_examples]: https://github.com/michelou/rust-examples#top
-[scala3_examples]: https://github.com/michelou/dotty-examples#top
+[scala3_examples]: https://github.com/michelou/scala3-examples#top
 [golang_examples]: https://github.com/michelou/sml-examples#top
 [sml_examples]: https://github.com/michelou/sml-examples#top
 [spark_examples]: https://github.com/michelou/spark-examples#top

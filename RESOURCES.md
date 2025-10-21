@@ -3,7 +3,7 @@
 <table style="font-family:Helvetica,Arial;line-height:1.6;">
   <tr>
   <td style="border:0;padding:0 10px 0 0;max-width:80px;">
-    <a href="https://en.wikipedia.org/wiki/Component_Pascal" rel="external"><img style="border:0;width:80px;" src="./docs/images/cpascal.png" /></a>
+    <a href="https://en.wikipedia.org/wiki/Component_Pascal" rel="external"><img style="border:0;width:80px;" src="./docs/images/component-pascal.png" /></a>
   </td>
   <td style="border:0;padding:0;vertical-align:text-top;">
     This document gathers <a href="https://en.wikipedia.org/wiki/Component_Pascal" rel="external">Component Pascal</a> related resources that caught our attention.
