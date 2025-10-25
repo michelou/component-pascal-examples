@@ -61,13 +61,13 @@ if not exist "%JAVA_HOME%\bin\java.exe" (
 )
 set "_JAVA_CMD=%JAVA_HOME%\bin\java.exe"
 
-if not exist "%JROOT%\jars\cprts.jar" (
-    echo %_ERROR_LABEL% Component Pascal library not found 1>&2
+if not exist "%JROOT%\bin\gpcp.bat" (
+    echo %_ERROR_LABEL% Component Pascal compiler for JVM not found 1>&2
     set _EXITCODE=1
     goto :eof
 )
 if not exist "%GPCP_HOME%\bin\gpcp.exe" (
-    echo %_ERROR_LABEL% Component Pascal installation not found 1>&2
+    echo %_ERROR_LABEL% Component Pascal compiler for .NET not found 1>&2
     set _EXITCODE=1
     goto :eof
 )
@@ -242,10 +242,13 @@ set "_GPCP_CMD=%JROOT%\bin\gpcp.bat"
 
 if not exist "%_CLASSES_DIR%" mkdir "%_CLASSES_DIR%"
 
-if %_DEBUG%==1 ( set __GPCP_OPTS=/verbose 
-) else if %_VERBOSE%==1 ( set __GPCP_OPTS=/quiet
-) else ( set __GPCP_OPTS=/quiet /nowarn /list-
+if %_DEBUG%==1 ( set __GPCP_OPTS=-verbose 
+) else if %_VERBOSE%==1 ( set __GPCP_OPTS=-quiet
+) else ( set __GPCP_OPTS=-quiet -nowarn -list-
 )
+@rem default is -asm7 for class files generation
+set __GPCP_OPTS=%__GPCP_OPTS% -asm8
+
 @rem source file paths relative to directory 'target\classes\'
 set __SOURCE_FILES=
 set __N=0

@@ -20,10 +20,12 @@
 
 - Github/[Herschel](https://github.com/adimetrius/Herschel) &ndash; ground work for Component Pascal 64-bit compiler.
 - GitHub/[CPfront](https://github.com/Oleg-N-Cher/CPFront) &ndash; Component Pascal to C Translator.
+
 ## <span id="tools">Tools</span>
 
 - [Component Pascal Collection](https://www.zinnamturm.eu/downloads.htm) &ndash; the CPC Edition of BlackBox 1.8.2504.
 - [CPIde](https://www.astrobe.com/CPIde/CPIde.htm) &ndash; an IDE for Component Pascal for .NET.
+- GitHub / [gpcp-JVM](https://github.com/pahihu/gpcp-JVM) &ndash; Java 11+ support for gpcp-JVM.
 
 ***
 

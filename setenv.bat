@@ -31,6 +31,9 @@ if not %_EXITCODE%==0 goto end
 call :gpcp_jvm
 if not %_EXITCODE%==0 goto end
 
+call :java 17 "temurin"
+if not %_EXITCODE%==0 goto end
+
 call :git
 if not %_EXITCODE%==0 goto end
 
@@ -271,7 +274,6 @@ goto :eof
 @rem output parameter: _JROOT
 :gpcp_jvm
 set _JROOT=
-set JDK_HOME=
 
 set __GPCP_CMD=
 for /f "delims=" %%f in ('where gpcp.bat 2^>NUL') do set "__GPCP_CMD=%%f"
@@ -301,39 +303,74 @@ if not exist "%_JROOT%\bin\gpcp.bat" (
     set _EXITCODE=1
     goto :eof
 )
-for /f "delims=" %%f in ('dir /ad /b /s "%_JROOT%\jdk*" 2^>NUL') do (
-    set "JDK_HOME=%%f"
+goto :eof
+
+
+@rem input parameters:%1=required version %2=vendor 
+@rem output parameter: _JAVA_HOME
+:java
+set _JAVA_HOME=
+
+set __VERSION=%~1
+set __VENDOR=%~2
+if not defined __VENDOR ( set __JDK_NAME=jdk-%__VERSION%
+) else ( set __JDK_NAME=jdk-%__VENDOR%-%__VERSION%
 )
-if exist "%JDK_HOME%\bin\java.exe" (
-    if %_DEBUG%==1 ( echo %_DEBUG_LABEL% Java RE directory is "%JDK_HOME%" 1>&2
-    ) else if %_VERBOSE%==1 ( echo Java RE directory is "%JDK_HOME%" 1>&2
+set __JAVAC_CMD=
+for /f "delims=" %%f in ('where javac.exe 2^>NUL') do (
+    set "__JAVAC_CMD=%%f"
+    @rem we ignore Scoop managed Java installation
+    if not "!__JAVAC_CMD:scoop=!"=="!__JAVAC_CMD!" set __JAVAC_CMD=
+)
+if defined __JAVAC_CMD (
+    call :jdk_version "%__JAVAC_CMD%"
+    if !_JDK_VERSION!==%__VERSION% (
+        for /f "delims=" %%i in ("%__JAVAC_CMD%") do set "__BIN_DIR=%%~dpi"
+        for /f "delims=" %%f in ("%__BIN_DIR%") do set "_JAVA_HOME=%%~dpf"
+    ) else (
+        echo %_ERROR_LABEL% Required JDK installation not found ^("%__JDK_NAME%"^) 1>&2
+        set _EXITCODE=1
+        goto :eof
     )
-    goto :eof
 )
-@rem https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/tag/jdk8u272-b10
-set "_TGZ_NAME=OpenJDK8U-jre_x64_windows_hotspot_8u272b10.zip"
-set "__URL=https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u272-b10/%_TGZ_NAME%"
-set "__TGZ_FILE=%TEMP%\%_TGZ_NAME%"
-
-if %_DEBUG%==1 ( echo %_DEBUG_LABEL% "%_PWSH_CMD%" -c "Invoke-WebRequest -Uri %__URL% -Outfile %__TGZ_FILE%" 1>&2
-) else if %_VERBOSE%==1 ( echo Download archive file "%_TGZ_NAME%" 1>&2
+if defined JAVA_HOME (
+    set "_JAVA_HOME=%JAVA_HOME%"
+    if %_DEBUG%==1 echo %_DEBUG_LABEL% Using environment variable JAVA_HOME 1>&2
+) else (
+    set __PATH=C:\opt
+    for /f "delims=" %%f in ('dir /ad /b "!__PATH!\%__JDK_NAME%*" 2^>NUL') do set "_JAVA_HOME=!__PATH!\%%f"
+    if not defined _JAVA_HOME (
+        set "__PATH=%ProgramFiles%\Java"
+        for /f "delims=" %%f in ('dir /ad /b "!__PATH!\%__JDK_NAME%*" 2^>NUL') do set "_JAVA_HOME=!__PATH!\%%f"
+    )
+    if defined _JAVA_HOME (
+        if %_DEBUG%==1 echo %_DEBUG_LABEL% Using default Java SDK installation directory "!_JAVA_HOME!" 1>&2
+    )
 )
-call "%_PWSH_CMD%" -c "$progressPreference='silentlyContinue';Invoke-WebRequest -Uri %__URL% -Outfile %__TGZ_FILE%"
-if not %ERRORLEVEL%==0 (
-    echo %_ERROR_LABEL% Failed to download archive file %_TGZ_NAME% 1>&2
+if not exist "%_JAVA_HOME%\bin\javac.exe" (
+    echo %_ERROR_LABEL% Executable javac.exe not found ^("%_JAVA_HOME%"^) 1>&2
     set _EXITCODE=1
     goto :eof
 )
-mkdir "%JDK_HOME%"
+call :jdk_version "%_JAVA_HOME%\bin\javac.exe"
+set "_JAVA!_JDK_VERSION!_HOME=%_JAVA_HOME%"
+goto :eof
 
-if %_DEBUG%==1 ( echo %_DEBUG_LABEL% tar -xf "%__TGZ_FILE%" -C "%_JROOT%" 1>&2
-) else if %_VERBOSE%==1 ( echo Extract data from archive file "%_TGZ_NAME%" 1>&2
-)
-tar -xf "%__TGZ_FILE%" -C "%_JROOT%"
-if not %ERRORLEVEL%==0 (
-    echo %_ERROR_LABEL%: Failed to extract data from archive file %_TGZ_NAME% 1>&2
+@rem input parameter: %1=javac file path
+@rem output parameter: _JDK_VERSION
+:jdk_version
+set "__JAVAC_CMD=%~1"
+if not exist "%__JAVAC_CMD%" (
+    echo %_ERROR_LABEL% Command javac.exe not found ^("%__JAVAC_CMD%"^) 1>&2
     set _EXITCODE=1
     goto :eof
+)
+set __JAVAC_VERSION=
+for /f "usebackq tokens=1,*" %%i in (`"%__JAVAC_CMD%" -version 2^>^&1`) do set "__JAVAC_VERSION=%%j"
+set "__PREFIX=%__JAVAC_VERSION:~0,2%"
+@rem either 1.7, 1.8 or 11..18
+if "%__PREFIX%"=="1." ( set _JDK_VERSION=%__JAVAC_VERSION:~2,1%
+) else ( set _JDK_VERSION=%__PREFIX%
 )
 goto :eof
 
@@ -457,7 +494,7 @@ endlocal & (
     if %_EXITCODE%==0 (
         if not defined GIT_HOME set "GIT_HOME=%_GIT_HOME%"
         if not defined GPCP_HOME set "GPCP_HOME=%_GPCP_HOME%"
-        if not defined JAVA_HOME set "JAVA_HOME=%JDK_HOME%"
+        if not defined JAVA_HOME set "JAVA_HOME=%_JAVA_HOME%"
         if not defined JROOT set "JROOT=%_JROOT%"
         set "PATH=%PATH%%_GIT_PATH%;%~dp0bin"
         call :print_env %_VERBOSE%

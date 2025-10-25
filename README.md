@@ -17,25 +17,28 @@ This project depends on the following external software for the **Microsoft Wind
 
 - [Gardens Point Component Pascal 1.4][gpcp_downloads] <sup id="anchor_01">[1](#footnote_01)</sup>
 - [Git 2.51][git_downloads] ([*release notes*][git_relnotes])
+- [Temurin OpenJDK 17 LTS][temurin_openjdk17] ([*release notes*][temurin_openjdk17_relnotes], [*bug fixes*][temurin_openjdk17_bugfixes])
+<!--
 - [OpenJDK8U JRE 8u272][jre_8u272] <sup id="anchor_02">[2](#footnote_02)</sup> ([*release notes*][jre_8u272_relnotes])
+-->
 
 Optionally one may also install the following software:
 
-- [ConEmu][conemu_downloads] ([*release notes*][conemu_relnotes])
+- [ConEmu 2023][conemu_downloads] ([*release notes*][conemu_relnotes])
 - [Visual Studio Code 1.105][vscode_downloads] ([*release notes*][vscode_relnotes])
 
 > **&#9755;** ***Installation policy***<br/>
 > When possible we install software from a [Zip archive][zip_archive] rather than via a Windows installer. In our case we defined **`C:\opt\`** as the installation directory for optional software tools (*in reference to* the [**`/opt/`**][linux_opt] directory on Unix).
 
-For instance our development environment looks as follows (*October 2025*) <sup id="anchor_03">[3](#footnote_03)</sup>:
+For instance our development environment looks as follows (*October 2025*) <sup id="anchor_02">[2](#footnote_02)</sup>:
 
 <pre style="font-size:80%;">
-C:\opt\ConEmu\                            <i>( 26 MB)</i>
-C:\opt\Git\                               <i>(394 MB)</i>
-C:\opt\gpcp-JVM-1.4.07\                   <i>( 20 MB)</i> (without JRE subdirectory)
-c:\opt\gpcp-JVM-1.4.07\jdk8u272-b10-jre\  <i>( 94 MB)</i>
-C:\opt\gpcp-NET-1.4.08\                   <i>( 22 MB)</i>
-C:\opt\VSCode\                            <i>(430 MB)</i>
+C:\opt\ConEmu\                  <i>( 26 MB)</i>
+C:\opt\Git\                     <i>(394 MB)</i>
+C:\opt\gpcp-JVM-1.4.08\         <i>( 54 MB)</i>
+C:\opt\gpcp-NET-1.4.08\         <i>( 22 MB)</i>
+C:\opt\jdk-temurin-17.0.16_8\   <i>(302 MB)</i>
+C:\opt\VSCode\                  <i>(430 MB)</i>
 </pre>
 
 > **:mag_right:** [Git for Windows][git_downloads] provides a BASH emulation used to run [**`git.exe`**][git_cli] from the command line (as well as over 250 Unix commands like [**`awk`**][man1_awk], [**`diff`**][man1_diff], [**`file`**][man1_file], [**`grep`**][man1_grep], [**`more`**][man1_more], [**`mv`**][man1_mv], [**`rmdir`**][man1_rmdir], [**`sed`**][man1_sed] and [**`wc`**][man1_wc]).
@@ -73,11 +76,11 @@ where
 <b>&gt; <a href="./setenv.bat">setenv</a> -verbose</b>
 Select drive G: for which a substitution already exists
 Tool versions:
-   java 1.8.0_272, gpcp 1.4.08b3, j2cps 1.4.07,
+   java 17.0.6, gpcp 1.4.08b3, j2cps 1.4.07,
    git 2.51.1, diff 3.12, bash 5.2.37(1)-release
 Tool paths:
    C:\opt\jdk-temurin-1.8.0u412-b08\bin\javac.exe
-   C:\opt\jdk-temurin-1.8.0u412-b08\bin\java.exe
+   C:\opt\jdk-temurin-17.0.16_8\bin\java.exe
    C:\opt\gpcp-NET-1.4.08\bin\gpcp.exe
    C:\opt\Git\bin\git.exe
    C:\opt\Git\usr\bin\diff.exe
@@ -85,8 +88,8 @@ Tool paths:
 Environment variables:
    "GIT_HOME=C:\opt\Git"
    "GPCP_HOME=C:\opt\gpcp-NET-1.4.08"
-   "JAVA_HOME=C:\opt\gpcp-JVM-1.4.07\jdk8u282-b08-jre"
-   "JROOT=C:\opt\gpcp-JVM-1.4.07"
+   "JAVA_HOME=C:\opt\jdk-temurin-17.0.16_8"
+   "JROOT=C:\opt\gpcp-JVM-1.4.08"
 Path associations:
    H:\: => %USERPROFILE%\workspace-perso\component-pascal-examples
 </pre>
@@ -124,28 +127,10 @@ Compile 1 Component Pascal source file to directory "H:\examples\Hello\target\cl
         at CP.gpcp.gpcp.main(gpcp.cp:40)
 Error: Failed to compile 1 Component Pascal source file to directory "H:\examples\Hello\target\classes"
 </pre>
+Fortunately, version [**1.4.0.8**](https://github.com/pahihu/gpcp-JVM/releases/tag/1.4.08) adds support for Java 11 and Java 17. Andras Pahi has hacked the GPCP compiler to emit local/stack declarations without semicolons. After JDK 1.8.0_275 the JVM follows the spec more rigorously and does not allow semicolons in class names.
 </dd></dl>
 
-<span id="footnote_02">[2]</span> ***Java RE 8*** [↩](#anchor_02)
-
-<dl><dd>
-Version <a href="https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/tag/jdk8u272-b10"><b>8u272</b></a> of the Java VM is the most recent version supported by GPCP for JVM version <b>1.4.07</b>.
-
-Our batch file [`setenv.bat`](./setenv.bat) will install it into the GPCP installation directory if not yet present :
-
-<pre style="font-size:80%;">
-<b>&gt; for /d %a in ("c:\opt\gpcp-JVM-1.4.07\*") do @<a href="https://man7.org/linux/man-pages/man1/du.1.html">du</a> -sh --apparent-size %~fa</b>
-1.8K    c:\opt\gpcp-JVM-1.4.07\bin
-1.6M    c:\opt\gpcp-JVM-1.4.07\documentation
-705K    c:\opt\gpcp-JVM-1.4.07\jars
-<span style="color:blue;">95M     c:\opt\gpcp-JVM-1.4.07\jdk8u272-b10-jre</span>
-1.6M    c:\opt\gpcp-JVM-1.4.07\libs
-2.3M    c:\opt\gpcp-JVM-1.4.07\sources
-15M     c:\opt\gpcp-JVM-1.4.07\symfiles
-</pre>
-</dd></dl>
-
-<span id="footnote_03">[3]</span> ***Downloads*** [↩](#anchor_03)
+<span id="footnote_02">[2]</span> ***Downloads*** [↩](#anchor_03)
 
 <dl><dd>
 In our case we downloaded the following installation files (see <a href="#proj_deps">section 1</a>):
@@ -153,9 +138,9 @@ In our case we downloaded the following installation files (see <a href="#proj_d
 <dd>
 <pre style="font-size:80%;">
 <a href="https://github.com/Maximus5/ConEmu/releases/tag/v23.07.24" rel="external">ConEmuPack.230724.7z</a>                               <i>(  5 MB)</i>
-<a href="https://github.com/k-john-gough/gpcp/releases/tag/v1.4.07" rel="external">gpcp-JVM1.4.07.zip</a>                                 <i>(  5 MB)</i>
+<a href="https://github.com/pahihu/gpcp-JVM/releases/tag/1.4.08" rel="external">gpcp-JVM-1.4.08.zip</a>                                <i>(  5 MB)</i>
 <a href="https://github.com/k-john-gough/gpcp/releases/tag/v1.4.08-beta3" rel="external">gpcp-NET1.4.08b3.zip</a>                               <i>(  4 MB)</i>
-<a href="https://www.oracle.com/java/technologies/javase/javase8u211-later-archive-downloads.html">jre-8u271-windows-x64.tar.gz</a>                       <i>( 74 MB)</i>
+<a href="https://adoptium.net/temurin/releases?version=17&os=windows&arch=x64">OpenJDK17U-jdk_x64_windows_hotspot_17.0.16_8.zip</a>   <i>(188 MB)</i>
 <a href="https://git-scm.com/download/win" rel="external">PortableGit-2.51.1-64-bit.7z.exe</a>                   <i>( 47 MB)</i>
 <a href="https://code.visualstudio.com/Download#" rel="external">VSCode-win32-x64-1.105.1.zip</a>                       <i>(131 MB)</i>
 </pre>
@@ -185,8 +170,10 @@ Concretely, in our GitHub projects which depend on Visual Studio (e.g. <a href="
 <span id="footnote_05">[5]</span> ***GPCP command line options*** [↩](#anchor_05)
 
 <dl><dd>
+You shouldn't be misled by the help message of the <i>hacked</i> version <b>1.4.0.8</b> which still prints <b>1.4.0.7</b> :
+
 <pre style="font-size:80%;">
-<b>&gt; C:\opt\gpcp-JVM-1.4.07\bin\gpcp.bat -help</b>
+<b>&gt; C:\opt\gpcp-JVM-1.4.08\bin\gpcp.bat -help</b>
 gardens point component pascal:  version 1.4.07 of 04 March 2018
 #gpcp: Usage from the command line ...
        $ gpcp [cp-options] file {file}

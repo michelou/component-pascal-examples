@@ -24,7 +24,7 @@
             <Keywords name="Folders in comment, open"></Keywords>
             <Keywords name="Folders in comment, middle"></Keywords>
             <Keywords name="Folders in comment, close"></Keywords>
-            <Keywords name="Keywords1">ARRAY BEGIN CONST DO ELSE ELSIF END FOR IF IMPORT IN MODULE OF OUT  PROCEDURE POINTER RECORD REPEAT RETURN SET THEN TO TYPE UNTIL VAR VECTOR</Keywords>
+            <Keywords name="Keywords1">ARRAY BEGIN CASE CONST DO ELSE ELSIF END FOR IF IMPORT IN MODULE OF OR OUT PROCEDURE POINTER RECORD REPEAT RETURN SET THEN TO TYPE UNTIL VAR VECTOR WHILE WITH</Keywords>
             <Keywords name="Keywords2">BOOLEAN CHAR INTEGER LONGINT SHORTINT REAL</Keywords>
             <Keywords name="Keywords3">APPEND BOX CHR EXCL INC INCL  LEN MKSTR MOD NEW NIL ORD REGISTER</Keywords>
             <Keywords name="Keywords4">Console CPmain GPText GPTextFiles RTS SYSTEM</Keywords>
