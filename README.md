@@ -15,8 +15,8 @@
 
 This project depends on the following external software for the **Microsoft Windows** platform:
 
-- [Gardens Point Component Pascal for Java 1.4][gpcp_java_downloads]
-- [Gardens Point Component Pascal for .NET 1.4][gpcp_downloads] <sup id="anchor_01">[1](#footnote_01)</sup>
+- [Gardens Point Component Pascal for Java 1.4][gpcp_java_downloads] <sup id="anchor_01">[1](#footnote_01)</sup>
+- [Gardens Point Component Pascal for .NET 1.4][gpcp_downloads]
 - [Git 2.52][git_downloads] ([*release notes*][git_relnotes])
 - [Temurin OpenJDK 17 LTS][temurin_openjdk17] ([*release notes*][temurin_openjdk17_relnotes], [*bug fixes*][temurin_openjdk17_bugfixes])
 <!--
@@ -81,7 +81,7 @@ Tool versions:
    git 2.52.0, diff 3.12, bash 5.2.37(1)-release
 Tool paths:
    C:\opt\jdk-temurin-1.8.0u412-b08\bin\javac.exe
-   C:\opt\jdk-temurin-17.0.16_8\bin\java.exe
+   C:\opt\jdk-temurin-17.0.17_10\bin\java.exe
    C:\opt\gpcp-NET-1.4.08\bin\gpcp.exe
    C:\opt\Git\bin\git.exe
    C:\opt\Git\usr\bin\diff.exe
@@ -331,7 +331,7 @@ gardens point component pascal:  version 1.4.07 of 04 March 2018
 [temurin_openjdk17_relnotes]: https://mail.openjdk.org/pipermail/jdk-updates-dev/2025-October/049112.html
 [trufflesqueak_examples]: https://github.com/michelou/trufflesqueak-examples#top
 [unix_opt]: https://tldp.org/LDP/Linux-Filesystem-Hierarchy/html/opt.html
-[vscode_downloads]: https://code.visualstudio.com/#alt-downloads
+[vscode_downloads]: https://code.visualstudio.com/Download
 [vscode_relnotes]: https://code.visualstudio.com/updates
 [windows_installer]: https://docs.microsoft.com/en-us/windows/win32/msi/windows-installer-portal
 [windows_limitation]: https://support.microsoft.com/en-gb/help/830473/command-prompt-cmd-exe-command-line-string-limitation
