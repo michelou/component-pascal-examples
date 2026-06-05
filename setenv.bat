@@ -24,6 +24,7 @@ if %_HELP%==1 (
 )
 
 set _GIT_PATH=
+set _MSYS_PATH=
 
 call :gpcp_net
 if not %_EXITCODE%==0 goto end
@@ -35,6 +36,9 @@ call :java 17 "temurin"
 if not %_EXITCODE%==0 goto end
 
 call :git
+if not %_EXITCODE%==0 goto end
+
+call :msys
 if not %_EXITCODE%==0 goto end
 
 if "%~1"=="clean" call :clean
@@ -416,6 +420,40 @@ if not exist "%_GIT_HOME%\bin\git.exe" (
 set "_GIT_PATH=;%_GIT_HOME%\bin;%_GIT_HOME%\mingw64\bin;%_GIT_HOME%\usr\bin"
 goto :eof
 
+@rem output parameters: _MSYS_HOME, _MSYS_PATH
+:msys
+set _MSYS_HOME=
+set _MSYS_PATH=
+
+set __MAKE_CMD=
+for /f "delims=" %%f in ('where make.exe 2^>NUL') do set "__MAKE_CMD=%%f"
+if defined __MAKE_CMD (
+    for /f "delims=" %%i in ("%__MAKE_CMD%") do set "__MAKE_BIN_DIR=%%~dpi"
+    for /f "delims=" %%f in ("!__MAKE_BIN_DIR!\.") do set "_MSYS_HOME=%%~dpf"
+    if %_DEBUG%==1 echo %_DEBUG_LABEL% Using path of GNU Make executable found in PATH 1>&2
+    @rem keep _MSYS_PATH undefined since executable already in path
+    goto :eof
+) else if defined MSYS_HOME (
+    set "_MSYS_HOME=%MSYS_HOME%"
+    if %_DEBUG%==1 echo %_DEBUG_LABEL% Using environment variable MSYS_HOME 1>&2
+) else (
+    set __PATH=C:\opt
+    for /f "delims=" %%f in ('dir /ad /b "!__PATH!\msys*" 2^>NUL') do set "_MSYS_HOME=!__PATH!\%%f"
+    if not defined _MSYS_HOME (
+        set "__PATH=ProgramFiles%"
+        for /f "delims=" %%f in ('dir /ad /b "!__PATH!\msys*" 2^>NUL') do set "_MSYS_HOME=!__PATH!\%%f"
+    )
+)
+if not exist "%_MSYS_HOME%\usr\bin\make.exe" (
+    echo %_ERROR_LABEL% GNU Make executable not found ^("%_MSYS_HOME%"^) 1>&2
+    set _MSYS_HOME=
+    set _EXITCODE=1
+    goto :eof
+)
+@rem 1st path -> (make.exe, python.exe), 2nd path -> gcc.exe
+set "_MSYS_PATH=;%_MSYS_HOME%\usr\bin;%_MSYS_HOME%\mingw64\bin"
+goto :eof
+
 :clean
 for %%f in ("%~dp0") do set __ROOT_DIR=%%~sf
 for /f "delims=" %%i in ('dir /ad /b "%__ROOT_DIR%\" 2^>NUL') do (
@@ -445,6 +483,11 @@ where /q "%JROOT%\jars:j2cps.jar"
 if %ERRORLEVEL%==0 (
     for /f "tokens=1,2,3,*" %%i in ('call "%JAVA_HOME%\bin\java.exe" -jar "%JROOT%\jars\j2cps.jar" -version 2^>NUL') do set "__VERSIONS_LINE1=%__VERSIONS_LINE1% j2cps %%~k,"
 )
+where /q "%MSYS_HOME%\usr\bin:make.exe"
+if %ERRORLEVEL%==0 (
+    for /f "tokens=1,2,3,*" %%i in ('"%MSYS_HOME%\usr\bin\make.exe" --version 2^>^&1 ^| findstr Make') do set "__VERSIONS_LINE2=%__VERSIONS_LINE2% make %%k,"
+    set __WHERE_ARGS=%__WHERE_ARGS% "%MSYS_HOME%\usr\bin:make.exe"
+) 
 where /q "%GIT_HOME%\bin:git.exe"
 if %ERRORLEVEL%==0 (
     for /f "tokens=1,2,*" %%i in ('"%GIT_HOME%\bin\git.exe" --version') do (
@@ -477,6 +520,7 @@ if %__VERBOSE%==1 (
     if defined GPCP_HOME echo    "GPCP_HOME=%GPCP_HOME%" 1>&2
     if defined JAVA_HOME echo    "JAVA_HOME=%JAVA_HOME%" 1>&2
     if defined JROOT echo    "JROOT=%JROOT%" 1>&2
+    if defined MSYS_HOME echo    "MSYS_HOME=%MSYS_HOME%" 1>&2
     echo Path associations: 1>&2
     for /f "delims=" %%i in ('subst') do (
         set "__LINE=%%i"
@@ -496,7 +540,8 @@ endlocal & (
         if not defined GPCP_HOME set "GPCP_HOME=%_GPCP_HOME%"
         if not defined JAVA_HOME set "JAVA_HOME=%_JAVA_HOME%"
         if not defined JROOT set "JROOT=%_JROOT%"
-        set "PATH=%PATH%%_GIT_PATH%;%~dp0bin"
+        if not defined MSYS_HOME set "MSYS_HOME=%_MSYS_HOME%"
+        set "PATH=%PATH%%_MSYS_PATH%%_GIT_PATH%;%~dp0bin"
         call :print_env %_VERBOSE%
         if not "%CD:~0,2%"=="%_DRIVE_NAME%" (
             if %_DEBUG%==1 echo %_DEBUG_LABEL% cd /d %_DRIVE_NAME% 1>&2

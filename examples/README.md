@@ -195,33 +195,11 @@ The output directory `target\` looks as follows :
 
 ***
 
-*[mics](https://lampwww.epfl.ch/~michelou/)/November 2025* [**&#9650;**](#top)  <!-- May 2024 -->
+*[mics](https://lampwww.epfl.ch/~michelou/)/June 2026* [**&#9650;**](#top)  <!-- May 2024 -->
 <span id="bottom">&nbsp;</span>
 
 <!-- link refs -->
 
-[apache_ant_cli]: https://ant.apache.org/manual/running.html
-[apache_ant_faq]: https://ant.apache.org/faq.html#ant-name
-[apache_ant_ivy]: https://ant.apache.org/ivy/
-[apache_ant_ivy_relnotes]: https://ant.apache.org/ivy/history/2.5.2/release-notes.html
-[apache_foundation]: https://maven.apache.org/docs/history.html
-[apache_history]: https://ant.apache.org/faq.html#history
-[apache_maven_about]: https://maven.apache.org/what-is-maven.html
-[apache_maven_cli]: https://maven.apache.org/ref/current/maven-embedder/cli.html
-[bash]: https://en.wikipedia.org/wiki/Bash_(Unix_shell)
-[bazel_cli]: https://docs.bazel.build/versions/master/command-line-reference.html
-[cfr_releases]: https://www.benf.org/other/cfr/
-[cmd_cli]: https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/cmd
-[cygwin]: https://cygwin.com/install.html
-[gmake_cli]: http://www.glue.umd.edu/lsf-docs/man/gmake.html
-[gradle_groovy]: https://www.groovy-lang.org/
-[gradle_app_plugin]: https://docs.gradle.org/current/userguide/application_plugin.html#header
-[gradle_cli]: https://docs.gradle.org/current/userguide/command_line_interface.html
-[gradle_java_plugin]: https://docs.gradle.org/current/userguide/java_plugin.html
-[gradle_plugins]: https://docs.gradle.org/current/userguide/plugins.html
-[gradle_wrapper]: https://docs.gradle.org/current/userguide/gradle_wrapper.html
-[lightbend]: https://www.lightbend.com/
-[microsoft_powershell]: https://docs.microsoft.com/en-us/powershell/scripting/getting-started/getting-started-with-windows-powershell?view=powershell-6
 [make]: https://en.wikipedia.org/wiki/Make_(software)
 [man1_diff]: https://www.linux.org/docs/man1/diff.html
 [mill_cli]: https://www.lihaoyi.com/mill/#command-line-tools

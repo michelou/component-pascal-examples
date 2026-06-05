@@ -1,7 +1,7 @@
 MODULE DrivePoint;
 
   IMPORT
-    Console, Point;
+    Console, Point, CPmain;
 	
 (*PROCEDURE Do*; *)
   VAR

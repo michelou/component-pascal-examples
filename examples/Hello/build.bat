@@ -83,7 +83,7 @@ if %ERRORLEVEL%==0 ( set _PWSH_CMD=pwsh.exe
 @rem target=net
 set _MAIN_NAME=Hello
 @rem target=jvm
-set _MAIN_CLASS=CP.Hello.Hello
+set _MAIN_CLASS=CP.Hello.%_MAIN_NAME%
 set _MAIN_ARGS=
 goto :eof
 
@@ -167,6 +167,7 @@ if "%__ARG:~0,1%"=="-" (
     @rem subcommand
     if "%__ARG%"=="clean" ( set _CLEAN=1
     ) else if "%__ARG%"=="compile" ( set _COMPILE=1
+    ) else if "%__ARG%"=="help" ( set _HELP=1
     ) else if "%__ARG%"=="run" ( set _COMPILE=1& set _RUN=1
     ) else (
         echo %_ERROR_LABEL% Unknown subcommand "%__ARG%" 1>&2
@@ -188,6 +189,7 @@ if %_DEBUG%==1 (
     echo %_DEBUG_LABEL% Variables  : "GPCP_HOME=%GPCP_HOME%" 1>&2
     echo %_DEBUG_LABEL% Variables  : "JAVA_HOME=%JAVA_HOME%" 1>&2
     echo %_DEBUG_LABEL% Variables  : "JROOT=%JROOT%" 1>&2
+    echo %_DEBUG_LABEL% Variables  : _MAIN_NAME=%_MAIN_NAME% _MAIN_ARGS=%_MAIN_ARGS% 1>&2
 )
 if %_TIMER%==1 for /f "delims=" %%i in ('call "%_PWSH_CMD%" -c "(Get-Date)"') do set _TIMER_START=%%i
 goto :eof
@@ -242,6 +244,7 @@ goto :eof
 :compile_jvm
 if not exist "%_CLASSES_DIR%" mkdir "%_CLASSES_DIR%"
 
+@rem Unix-style options: "-option" are recognized also
 if %_DEBUG%==1 ( set __GPCP_OPTS=-verbose
 ) else if %_VERBOSE%==1 ( set __GPCP_OPTS=-quiet
 ) else ( set __GPCP_OPTS=-quiet -nowarn -list-
@@ -280,14 +283,15 @@ goto :eof
 :compile_net
 if not exist "%_TARGET_DIR%" mkdir "%_TARGET_DIR%"
 
-if %_DEBUG%==1 ( set __GPCP_OPTS=/verbose
-) else if %_VERBOSE%==1 ( set __GPCP_OPTS=/quiet
-) else ( set __GPCP_OPTS=/quiet /nowarn /list-
+@rem Unix-style options: "-option" are recognized also
+if %_DEBUG%==1 ( set __VERBOSE_OPT=-verbose
+) else if %_VERBOSE%==1 ( set __VERBOSE_OPT=-quiet
+) else ( set __VERBOSE_OPT=-quiet -nowarn -list-
 )
-set __GPCP_OPTS=/strict %__GPCP_OPTS% /target:%_TARGET%
+set __GPCP_OPTS=%__VERBOSE_OPT% -strict -target:%_TARGET%
 
 set "__CPSYM=%CPSYM%"
-set CPSYM=".;%JRoot%\symfiles;%JRoot%\symfiles\JvmSystem"
+set CPSYM=".;%JROOT%\symfiles;%JROOT%\symfiles\JvmSystem"
 
 @rem source file paths relative to directory 'target\classes\'
 set __SOURCE_FILES=
@@ -304,8 +308,12 @@ if %__N%==0 (
 )
 pushd "%_TARGET_DIR%"
 
-if %_DEBUG%==1 ( echo %_DEBUG_LABEL% "%_GPCP_NET_CMD%" %__GPCP_OPTS% %__SOURCE_FILES% 1>&2
-) else if %_VERBOSE%==1 ( echo Compile %__N_FILES% to directory "!_TARGET_DIR:%_ROOT_DIR%\=!" ^(DotNet^) 1>&2
+if %_DEBUG%==1 (
+    echo %_DEBUG_LABEL% CPSYM=%CPSYM% 1>&2
+    echo %_DEBUG_LABEL% Current directory: %CD% 1>&2
+    echo %_DEBUG_LABEL% "%_GPCP_NET_CMD%" %__GPCP_OPTS% %__SOURCE_FILES% 1>&2
+) else if %_VERBOSE%==1 (
+    echo Compile %__N_FILES% to directory "!_TARGET_DIR:%_ROOT_DIR%\=!" ^(DotNet^) 1>&2
 )
 call "%_GPCP_NET_CMD%" %__GPCP_OPTS% %__SOURCE_FILES% %_REDIRECT_STDOUT%
 if not %ERRORLEVEL%==0 (
@@ -317,8 +325,6 @@ if not %ERRORLEVEL%==0 (
 )
 popd
 set "CPSYM=%__CPSYM%"
-
-if %_TARGET%==jvm goto :eof
 
 if not exist "%GPCP_HOME%\bin\RTS.dll" (
     echo %_ERROR_LABEL% Runtime library not found 1>&2

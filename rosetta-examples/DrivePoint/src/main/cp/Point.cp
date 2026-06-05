@@ -36,7 +36,7 @@ MODULE Point;
       str: POINTER TO ARRAY OF CHAR;
   BEGIN
     Strings.IntToString(self.x,xStr);
-    Strings.IntToString(self.y,yStr);
+    (*Strings.IntToString(self.y,yStr);*) yStr := "1";
     NEW(str,128);str^ := "@(" +xStr$ + "," + yStr$ + ")";
     RETURN str
   END ToString;
